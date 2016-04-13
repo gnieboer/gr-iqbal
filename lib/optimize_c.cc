@@ -31,6 +31,10 @@
 		__GNUC_PATCHLEVEL__	\
 	)
 
+#if _MSC_VER >= 1900
+#include <complex>
+#endif 
+
 #if GCC_VERSION >= 40800
 # define complex _Complex
 # undef _GLIBCXX_HAVE_COMPLEX_H
@@ -120,7 +124,7 @@ iqbalance::optimize_c::work(int noutput_items,
 	p[0] = this->d_mag;
 	p[1] = this->d_phase;
 
-	osmo_cxvec_init_from_data(sig, (float complex *)in, N);
+	osmo_cxvec_init_from_data(sig, (_Fcomplex *)in, N);
 	osmo_iqbal_cxvec_optimize(sig, &p[0], &p[1], &opts);
 
 	if (this->d_first) {
